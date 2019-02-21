@@ -16,7 +16,7 @@ class App extends React.Component {
         // first reinstate local storage
         const { params } = this.props.match
         const localStorageRef = localStorage.getItem(params.storeId)
-        
+
         if (localStorageRef) {
             this.setState ({ order: JSON.parse(localStorageRef)})
         }
@@ -43,8 +43,27 @@ class App extends React.Component {
         this.setState({ fishes })
     }
 
+    updateFish = (key, updatedFish) => {
+        // 1. Take a copy of the current state
+        const fishes = { ...this.state.fishes }
+        // 2. Update that state
+        fishes[key] = updatedFish
+        // 3. Set that to state
+        this.setState({ fishes })
+    }
+
+    deleteFish = (key) => {
+        // 1. take a copy of state
+        const fishes = { ...this.state.fishes }
+        // 2. update state (changing to null means Firebase picks up the deletion)
+        fishes[key] = null
+        // 3. 
+        this.setState ({ fishes })
+
+    }
+
     loadSampleFishes = () => {
-        this.setState({fishes: sampleFishes})
+        this.setState({ fishes: sampleFishes })
     }
 
     addToOrder = (key) => {
@@ -52,6 +71,13 @@ class App extends React.Component {
         order[key] = order[key] + 1 || 1
         this.setState ({ order })
     }
+
+    removeFromOrder = (key) => {
+        const order = {...this.state.order}
+        delete order[key]
+        this.setState ({ order })
+    }
+
     render() {
         return (
             <div className="catch-of-the-day">
@@ -66,10 +92,17 @@ class App extends React.Component {
                 ))}
                 </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order}/>
+                <Order fishes={this.state.fishes} 
+                order={this.state.order} 
+                removeFromOrder = {this.removeFromOrder}/>
+                
                 <Inventory 
                 addFish = {this.addFish}
-                loadSampleFishes = {this.loadSampleFishes}/>
+                updateFish = {this.updateFish}
+                deleteFish = {this.deleteFish}
+                loadSampleFishes = {this.loadSampleFishes}
+                fishes = {this.state.fishes}
+                />
             </div>
         )
     }
