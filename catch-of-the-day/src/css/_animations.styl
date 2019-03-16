@@ -7,4 +7,16 @@
 
 .order-enter
   background red
-  
+  transform: translate X(-120%)
+  transition 5s
+  &.order-enter-active
+    background yellow
+    transform: translateX (0)
+
+.order-exit
+  background thistle
+  transition 5s
+  transform translateX(0)
+  &.order-exit-active
+    background palegolenrod
+    transform translateX(120%)
