@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from "prop-types"
 
 // STATELESS FUNCTIONAL COMPONENT
 
 const Header = (props) => (
             <header className="top">
-                <h1> Catch 
+                <h1> Catch
                     <span className="ofThe">
                     <span className="of">of</span>
                     <span className="the">the</span>
@@ -15,5 +16,9 @@ const Header = (props) => (
                 </h3>
             </header>
         )
+
+Header.propTypes = {
+	tagline: PropTypes.string.isRequired
+}
 
 export default Header;
