@@ -8,6 +8,11 @@ class Order extends React.Component {
         const fish = this.props.fishes[key]
         const count = this.props.order[key]
         const isAvailable = fish && fish.status === 'available';
+        const transitionOptions = {
+        classNames: "count",
+        key,
+        timeout:{ enter: 500, exit: 500 }
+        };
         // this is to make sure fish is loaded before continuing
         if(!fish) return null
 
@@ -15,12 +20,20 @@ class Order extends React.Component {
             return <li key={key}>Sorry {fish ? fish.name : 'fish'} is no longer available</li>
         }
         return (
-        <CSSTransition classNames="order" key={key} timeout={{enter: 250, exit: 250 }} >
+      <CSSTransition {...transitionOptions}>
         <li key={key}>
-            <span>{count}</span>
+          <span>
+            <TransitionGroup component="span" className="count">
+              <CSSTransition {...transitionOptions}>
+                <span>{count}</span>
+              </CSSTransition>
+            </TransitionGroup>
             lbs {fish.name}
             {formatPrice(count * fish.price)}
-            <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>
+            <button onClick={() => this.props.removeFromOrder(key)}>
+              &times;
+            </button>
+          </span>
         </li>
         </CSSTransition>
         )
@@ -40,7 +53,8 @@ class Order extends React.Component {
             <div className="order-wrap">
                 <h2>Order</h2>
                 <TransitionGroup component="ul" className="order">
-                {orderIds.map(this.renderOrder)}</TransitionGroup>
+                  {orderIds.map(this.renderOrder)}
+                </TransitionGroup>
                 <div className="total">
                 Total:
                 <strong>{formatPrice(total)}</strong></div>

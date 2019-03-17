@@ -5,6 +5,7 @@ import Order from './Order'
 import sampleFishes from '../sample-fishes'
 import Fish from "./Fish"
 import base from "../base"
+require('dotenv').config()
 
 class App extends React.Component {
     state = {
@@ -39,7 +40,7 @@ class App extends React.Component {
         const fishes = { ...this.state.fishes }
         // add fish to the existing state
         fishes[`fish${Date.now()}`] = fish
-        // set new fishes object to state 
+        // set new fishes object to state
         this.setState({ fishes })
     }
 
@@ -57,7 +58,7 @@ class App extends React.Component {
         const fishes = { ...this.state.fishes }
         // 2. update state (changing to null means Firebase picks up the deletion)
         fishes[key] = null
-        // 3. 
+        // 3.
         this.setState ({ fishes })
 
     }
@@ -85,18 +86,18 @@ class App extends React.Component {
                 <Header tagline="Fresh Food Market"/>
                 <ul className="fishes">
                 {Object.keys(this.state.fishes).map(key => (
-                    <Fish key={key} 
-                    details={this.state.fishes[key]} 
+                    <Fish key={key}
+                    details={this.state.fishes[key]}
                     addToOrder = {this.addToOrder}
                     index = {key} />
                 ))}
                 </ul>
                 </div>
-                <Order fishes={this.state.fishes} 
-                order={this.state.order} 
+                <Order fishes={this.state.fishes}
+                order={this.state.order}
                 removeFromOrder = {this.removeFromOrder}/>
-                
-                <Inventory 
+
+                <Inventory
                 addFish = {this.addFish}
                 updateFish = {this.updateFish}
                 deleteFish = {this.deleteFish}
